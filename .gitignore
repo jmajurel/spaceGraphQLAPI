@@ -19,3 +19,12 @@ npm-debug.log
 
 # dist
 /dist
+
+### dotenv ###
+.env
+
+# dotenv environment variable files
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local

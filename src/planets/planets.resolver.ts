@@ -1,6 +1,6 @@
 import { Query, Resolver } from '@nestjs/graphql';
 import { Planet } from './models/planet.model';
-import { PlanetsService } from './planets.service';
+import { PlanetsService } from './service/planets.service';
 
 @Resolver(of => Planet)
 export class PlanetsResolver {
