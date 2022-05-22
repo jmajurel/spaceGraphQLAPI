@@ -1,0 +1,15 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @upper on FIELD_DEFINITION
+
+"""planet"""
+type Planet {
+  id: ID!
+  name: String!
+}
+
+type Query {
+  planets: [Planet!]!
+}
