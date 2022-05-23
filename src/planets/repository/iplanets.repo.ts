@@ -1,4 +1,4 @@
-import { Planet } from "../models/planet.model"
+import { Planet } from "../repository/mongo/planet.schema"
 
 export interface IPlanetsRepository {
     findAll(): Promise<Planet[]>

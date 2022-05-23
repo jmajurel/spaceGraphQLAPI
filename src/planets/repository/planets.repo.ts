@@ -1,10 +1,15 @@
+import { Model } from 'mongoose';
 import { Injectable } from "@nestjs/common";
-import { Planet } from "../models/planet.model";
+import { InjectModel } from "@nestjs/mongoose";
+import { Planet, PlanetDocument } from './mongo/planet.schema';
 import { IPlanetsRepository } from "./iplanets.repo";
 
 @Injectable()
 export class PlanetsRepository implements IPlanetsRepository {
-    findAll(): Promise<Planet[]> {
-        throw new Error("Method not implemented.");
+
+    constructor(@InjectModel(Planet.name) private planetModel: Model<PlanetDocument>) {}
+    
+    async findAll(): Promise<Planet[]> {
+        return this.planetModel.find({}).exec();
     }
 }
