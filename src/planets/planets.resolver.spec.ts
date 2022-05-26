@@ -1,45 +1,34 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { MongooseModule } from '@nestjs/mongoose';
 
-import { Test } from '@nestjs/testing';
-import { getModelToken } from "@nestjs/mongoose"
-import { Planet } from "./repository/mongo/planet.schema"
-import { PlanetsResolver } from './planets.resolver';
 import { PlanetsService } from './service/planets.service';
-import { PlanetsRepository } from "./repository/planets.repo";
+import { closeInMongodConnection, rootMongooseTestModule } from '../testingHelper';
+import { PlanetSchema } from './repository/mongo/planet.schema';
 
-describe('PlanetsResolver', () => {
-  let planetsResolver: PlanetsResolver;
-  let planetsService: PlanetsService;
-  let planetsRepository: PlanetsRepository;
-
-  const mockPlanet = {
-    name: 'Mock Earth',
-  };
+describe('PlanetsService', () => {
+  let service: PlanetsService;
 
   beforeEach(async () => {
-    const moduleRef = await Test.createTestingModule({
-        controllers: [PlanetsResolver],
-        providers: [PlanetsService, PlanetsRepository,     
-            {
-            provide: getModelToken(Planet.name),
-            useValue: {
-                new: jest.fn().mockResolvedValue(mockPlanet),
-                constructor: jest.fn().mockResolvedValue(mockPlanet),
-                find: jest.fn(),
-                create: jest.fn(),
-                exec: jest.fn(),
-              },
-            },
-        ],
-      }).compile();
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        rootMongooseTestModule(),
+        MongooseModule.forFeature([{ name: 'Planet', schema: PlanetSchema }]),
+      ],
+      providers: [PlanetsService],
+    }).compile();
 
-      planetsRepository = moduleRef.get<PlanetsRepository>(PlanetsRepository);
-      planetsResolver = moduleRef.get<PlanetsResolver>(PlanetsResolver);
+    service = module.get<PlanetsService>(PlanetsService);
   });
 
-  describe('findAll', () => {
-    it('should return an array of planets', async () => {
-      const result = [mockPlanet];
-      expect(await planetsResolver.planets()).toBe(result);
-    });
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+
+  /**
+    Write meaningful test
+  **/
+
+  afterAll(async () => {
+    await closeInMongodConnection();
   });
 });
