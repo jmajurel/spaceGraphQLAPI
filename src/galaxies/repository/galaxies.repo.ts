@@ -28,6 +28,7 @@ export class GalaxiesRepository implements IGalaxiesRepository {
         const newlyCreatedGalaxyDTO = new GalaxyModel();
         newlyCreatedGalaxyDTO.id = newlyCreatedGalaxy._id;
         newlyCreatedGalaxyDTO.name = newlyCreatedGalaxy.name
+        newlyCreatedGalaxyDTO.planets = [];
         return newlyCreatedGalaxyDTO;
     }
 }

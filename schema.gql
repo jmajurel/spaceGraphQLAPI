@@ -14,6 +14,7 @@ type Planet {
 type Galaxy {
   id: ID!
   name: String!
+  planets: [Planet!]!
 }
 
 type Query {
