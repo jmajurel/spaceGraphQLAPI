@@ -10,10 +10,18 @@ type Planet {
   name: String!
 }
 
+"""galaxy"""
+type Galaxy {
+  id: ID!
+  name: String!
+}
+
 type Query {
   planets: [Planet!]!
+  galaxies: [Galaxy!]!
 }
 
 type Mutation {
   planet(planetName: String!): Planet!
+  galaxy(galaxyName: String!): Galaxy!
 }
