@@ -1,4 +1,4 @@
-import { Query, Mutation, Resolver, Args } from '@nestjs/graphql';
+import { Query, Mutation, Resolver, Args, ID } from '@nestjs/graphql';
 import { GalaxyDTO } from './models/dtos/galaxy.dto';
 import { Galaxy } from './models/galaxy.model';
 import { GalaxiesService } from './service/galaxies.service';
@@ -13,9 +13,10 @@ export class GalaxiesResolver {
   }
 
   @Mutation(returns => Galaxy)
-  async galaxy(@Args({ name: 'galaxyName', type: () => String }) name: string) {
+  async galaxy(@Args({ name: 'galaxyName', type: () => String }) name: string, @Args({ name: 'planetIds', type: () => ID }) planetIds: string) {
     const galaxyToCreate = new GalaxyDTO();
     galaxyToCreate.name = name;
+    galaxyToCreate.planetIds = planetIds
     return this.galaxiesService.insert(galaxyToCreate);
   }
 }

@@ -5,7 +5,7 @@ import { Galaxy, GalaxyDocument } from './mongo/galaxy.schema';
 import { Galaxy as GalaxyModel} from "../models/galaxy.model"
 import { IGalaxiesRepository } from "./igalaxies.repo";
 import { GalaxyDTO } from '../models/dtos/galaxy.dto';
-
+import { Planet } from "../../planets/models/planet.model"
 @Injectable()
 export class GalaxiesRepository implements IGalaxiesRepository {
 
@@ -25,10 +25,15 @@ export class GalaxiesRepository implements IGalaxiesRepository {
 
     async insert(newGalaxy: GalaxyDTO): Promise<GalaxyModel> {
         const newlyCreatedGalaxy = await this.galaxyDBModel.create(newGalaxy)
+        newlyCreatedGalaxy.populate("planets")
         const newlyCreatedGalaxyDTO = new GalaxyModel();
         newlyCreatedGalaxyDTO.id = newlyCreatedGalaxy._id;
         newlyCreatedGalaxyDTO.name = newlyCreatedGalaxy.name
-        newlyCreatedGalaxyDTO.planets = [];
+        newlyCreatedGalaxyDTO.planets = newlyCreatedGalaxy.planets.map(x => {
+            var plt = new Planet();
+            plt.name =  x.name;
+            return plt;
+        })
         return newlyCreatedGalaxyDTO;
     }
 }
