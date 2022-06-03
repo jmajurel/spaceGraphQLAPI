@@ -24,7 +24,7 @@ export class PlanetsRepository implements IPlanetsRepository {
     }
 
     async insert(newPlanet: PlanetDTO): Promise<PlanetModel> {
-        const newlyCreatedPlanet = await (new this.planetDBModel(newPlanet)).save();
+        const newlyCreatedPlanet = await this.planetDBModel.create(newPlanet)
         const newlyCreatedPlanetDTO = new PlanetModel();
         newlyCreatedPlanetDTO.id = newlyCreatedPlanet._id;
         newlyCreatedPlanetDTO.name = newlyCreatedPlanet.name
