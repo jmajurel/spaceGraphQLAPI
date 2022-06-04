@@ -13,11 +13,16 @@ export class GalaxiesRepository implements IGalaxiesRepository {
 
     
     async findAll(): Promise<GalaxyModel[]> {
-        const galaxies = await this.galaxyDBModel.find({}).exec();
+        const galaxies = await this.galaxyDBModel.find({}).populate("planets").exec();
         const galaxiesDTO = galaxies.map(x => {
             var glx = new GalaxyModel();
             glx.id = x._id;
             glx.name = x.name;
+            glx.planets = x.planets.map(x => {
+                var plt = new Planet();
+                plt.name = x.name;
+                return plt;
+            })
             return glx;
         });
         return galaxiesDTO;
@@ -25,7 +30,7 @@ export class GalaxiesRepository implements IGalaxiesRepository {
 
     async insert(newGalaxy: GalaxyDTO): Promise<GalaxyModel> {
         const newlyCreatedGalaxy = await this.galaxyDBModel.create(newGalaxy)
-        newlyCreatedGalaxy.populate("planets")
+        await newlyCreatedGalaxy.populate("planets");
         const newlyCreatedGalaxyDTO = new GalaxyModel();
         newlyCreatedGalaxyDTO.id = newlyCreatedGalaxy._id;
         newlyCreatedGalaxyDTO.name = newlyCreatedGalaxy.name

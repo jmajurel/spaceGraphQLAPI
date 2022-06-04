@@ -52,7 +52,8 @@ describe('GalaxiesService', () => {
   it("should create a new galaxy", async () => {
 
     const andromedaGalaxy = {
-        name: "Andromeda Galaxy"
+        name: "Andromeda Galaxy",
+        planets: []
     };
 
     jest.spyOn(model, 'create').mockImplementationOnce(() =>

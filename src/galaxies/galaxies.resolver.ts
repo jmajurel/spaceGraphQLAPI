@@ -13,10 +13,10 @@ export class GalaxiesResolver {
   }
 
   @Mutation(returns => Galaxy)
-  async galaxy(@Args({ name: 'galaxyName', type: () => String }) name: string, @Args({ name: 'planetIds', type: () => ID }) planetIds: string) {
+  async galaxy(@Args({ name: 'galaxyName', type: () => String }) name: string, @Args({ name: 'planetIds', type: () => [ID] }) planetIds: string[]) {
     const galaxyToCreate = new GalaxyDTO();
     galaxyToCreate.name = name;
-    galaxyToCreate.planetIds = planetIds
+    galaxyToCreate.planets = planetIds;
     return this.galaxiesService.insert(galaxyToCreate);
   }
 }

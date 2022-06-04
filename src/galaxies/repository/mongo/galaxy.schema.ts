@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from "mongoose";
-import { Planet } from "src/planets/repository/mongo/planet.schema";
+import { Planet } from "../../../planets/repository/mongo/planet.schema";
 
 export type GalaxyDocument = Galaxy & Document;
 
