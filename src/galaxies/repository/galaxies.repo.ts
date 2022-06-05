@@ -18,8 +18,9 @@ export class GalaxiesRepository implements IGalaxiesRepository {
             var glx = new GalaxyModel();
             glx.id = x._id;
             glx.name = x.name;
-            glx.planets = x.planets.map(x => {
+            glx.planets = x.planets.map((x: any) => {
                 var plt = new Planet();
+                plt.id = x._id;
                 plt.name = x.name;
                 return plt;
             })
