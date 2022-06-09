@@ -15,6 +15,8 @@ import 'dotenv/config'
       autoSchemaFile: 'schema.gql',
       transformSchema: schema => upperDirectiveTransformer(schema, 'upper'),
       installSubscriptionHandlers: true,
+      playground: true,
+      introspection: true,
       buildSchemaOptions: {
         directives: [
           new GraphQLDirective({
