@@ -9,7 +9,7 @@ import { GalaxiesModule } from "./galaxies/galaxies.module"
 import { MainController } from "./main.controller"
 import 'dotenv/config'
 
-console.log(process.env)
+console.dir(process.env)
 @Module({
   controllers: [MainController],
   imports: [
