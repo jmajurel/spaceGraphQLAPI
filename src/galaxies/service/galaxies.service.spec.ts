@@ -9,6 +9,7 @@ import { Exclude } from 'class-transformer';
 
 const mockGalaxy = {
   name: 'Milky Way',
+  planets: [ { name:"Earth" }]
 };
 
 describe('GalaxiesService', () => {
@@ -26,7 +27,8 @@ describe('GalaxiesService', () => {
             constructor: jest.fn().mockResolvedValue(mockGalaxy),
             find: jest.fn(),
             create: jest.fn(),
-            exec: jest.fn(),            
+            exec: jest.fn(),  
+            populate: jest.fn()          
           }
       }, GalaxiesService],
     }).compile();
@@ -41,7 +43,9 @@ describe('GalaxiesService', () => {
 
   it("should return a list of galaxy", async () => {
     jest.spyOn(model, 'find').mockReturnValue({
-      exec: jest.fn().mockResolvedValueOnce([mockGalaxy]),
+      populate: jest.fn().mockReturnValue({
+        exec: jest.fn().mockResolvedValueOnce([mockGalaxy])
+      })
     } as any);
 
     const galaxies = await service.findAll();
@@ -57,11 +61,13 @@ describe('GalaxiesService', () => {
     };
 
     jest.spyOn(model, 'create').mockImplementationOnce(() =>
-    Promise.resolve({
-      name: andromedaGalaxy.name
-    })
-  );
-
+      Promise.resolve({
+        ...andromedaGalaxy,
+        populate: (): any => (
+          Promise.resolve({ ...andromedaGalaxy})
+        )
+      })
+    );
     const createdGalaxy = await service.insert(andromedaGalaxy);
     expect(createdGalaxy).toBeDefined();
     expect(createdGalaxy.name).toBe(andromedaGalaxy.name);
