@@ -1,9 +1,9 @@
-name: deploy pipeline
+name: deploy workflow
 on: [pull_request]
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
-    if: endswith(github.base_ref, 'develop')
+    if: endswith(github.base_ref, 'develop') && startsWith(github.head_ref, 'feature')
     environment: dev
     steps:
       - uses: actions/checkout@v2
@@ -15,7 +15,7 @@ jobs:
           usedocker: true
   deploy-prd:
     runs-on: ubuntu-latest
-    if: endswith(github.base_ref, 'main')
+    if: endswith(github.base_ref, 'main') && startsWith(github.head_ref, 'release')
     environment: prd
     steps:
       - uses: actions/checkout@v2
