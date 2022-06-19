@@ -1,13 +1,15 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
+import { MongooseModule } from '@nestjs/mongoose';
 import { DirectiveLocation, GraphQLDirective } from 'graphql';
 import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
 import { PlanetsModule } from './planets/planets.module';
 import { GalaxiesModule } from "./galaxies/galaxies.module" 
-import { MongooseModule } from '@nestjs/mongoose';
+import { MainController } from "./main.controller"
 import 'dotenv/config'
 @Module({
+  controllers: [MainController],
   imports: [
     PlanetsModule,
     GalaxiesModule,
