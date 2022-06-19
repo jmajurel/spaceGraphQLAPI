@@ -4,7 +4,9 @@ jobs:
   deploy-dev:
     runs-on: ubuntu-latest
     if: endswith(github.base_ref, 'develop') && startsWith(github.head_ref, 'feature')
-    environment: dev
+    environment: 
+      name: dev
+      url: https://spacegraphqlapi.herokuapp.com
     steps:
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12
@@ -16,7 +18,9 @@ jobs:
   deploy-prd:
     runs-on: ubuntu-latest
     if: endswith(github.base_ref, 'main') && startsWith(github.head_ref, 'release')
-    environment: prd
+    environment: 
+      name: prd
+      url: https://spacegraphqlapi-prd.herokuapp.com
     steps:
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12
