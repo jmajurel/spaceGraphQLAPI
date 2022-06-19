@@ -62,8 +62,11 @@ describe('GalaxiesService', () => {
 
     jest.spyOn(model, 'create').mockImplementationOnce(() =>
       Promise.resolve({
-        name: andromedaGalaxy.name
-        })
+        ...andromedaGalaxy,
+        populate: (): any => (
+          Promise.resolve({ ...andromedaGalaxy})
+        )
+      })
     );
     const createdGalaxy = await service.insert(andromedaGalaxy);
     expect(createdGalaxy).toBeDefined();
