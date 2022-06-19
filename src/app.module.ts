@@ -8,6 +8,8 @@ import { PlanetsModule } from './planets/planets.module';
 import { GalaxiesModule } from "./galaxies/galaxies.module" 
 import { MainController } from "./main.controller"
 import 'dotenv/config'
+
+console.log(process.env)
 @Module({
   controllers: [MainController],
   imports: [
