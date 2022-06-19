@@ -15,8 +15,6 @@ jobs:
           heroku_app_name: "spacegraphqlapi"
           heroku_email: "jeanfelix.majurel@gmail.com"
           usedocker: true
-        env:
-          DB_CONNECTION_STRING: ${{secrets.DB_CONNECTION_STRING_DEV}}
   deploy-prd:
     runs-on: ubuntu-latest
     if: endswith(github.base_ref, 'main') && startsWith(github.head_ref, 'release')
@@ -31,5 +29,4 @@ jobs:
           heroku_app_name: "spacegraphqlapi-prd"
           heroku_email: "jeanfelix.majurel@gmail.com"
           usedocker: true
-        env:
           DB_CONNECTION_STRING: ${{secrets.DB_CONNECTION_STRING_PRD}}
