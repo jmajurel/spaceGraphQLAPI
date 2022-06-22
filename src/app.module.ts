@@ -8,12 +8,14 @@ import { PlanetsModule } from './planets/planets.module';
 import { GalaxiesModule } from "./galaxies/galaxies.module" 
 import { MainController } from "./main.controller"
 import 'dotenv/config'
+
+console.dir(process.env)
 @Module({
   controllers: [MainController],
   imports: [
     PlanetsModule,
     GalaxiesModule,
-    MongooseModule.forRoot(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.2ldb3.mongodb.net/?retryWrites=true&w=majority`),
+    MongooseModule.forRoot(process.env.DB_CONNECTION_STRING),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
