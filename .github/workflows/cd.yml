@@ -29,4 +29,3 @@ jobs:
           heroku_app_name: "spacegraphqlapi-prd"
           heroku_email: "jeanfelix.majurel@gmail.com"
           usedocker: true
-          DB_CONNECTION_STRING: ${{secrets.DB_CONNECTION_STRING_PRD}}
