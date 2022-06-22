@@ -1,4 +1,5 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Query, Mutation, Resolver, Args } from '@nestjs/graphql';
+import { PlanetDTO } from './models/dtos/planet.dto';
 import { Planet } from './models/planet.model';
 import { PlanetsService } from './service/planets.service';
 
@@ -9,5 +10,12 @@ export class PlanetsResolver {
   @Query(returns => [Planet])
   planets(): Promise<Planet[]> {
     return this.planetsService.findAll();
+  }
+
+  @Mutation(returns => Planet)
+  async planet(@Args({ name: 'planetName', type: () => String }) name: string) {
+    const planetToCreate = new PlanetDTO();
+    planetToCreate.name = name;
+    return this.planetsService.insert(planetToCreate);
   }
 }

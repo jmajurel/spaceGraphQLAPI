@@ -1,0 +1,31 @@
+name: deploy workflow
+on: [pull_request]
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    if: endswith(github.base_ref, 'develop') && startsWith(github.head_ref, 'feature')
+    environment: 
+      name: dev
+      url: https://spacegraphqlapi.herokuapp.com
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "spacegraphqlapi"
+          heroku_email: "jeanfelix.majurel@gmail.com"
+          usedocker: true
+  deploy-prd:
+    runs-on: ubuntu-latest
+    if: endswith(github.base_ref, 'main') && startsWith(github.head_ref, 'release')
+    environment: 
+      name: prd
+      url: https://spacegraphqlapi-prd.herokuapp.com
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "spacegraphqlapi-prd"
+          heroku_email: "jeanfelix.majurel@gmail.com"
+          usedocker: true

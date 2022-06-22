@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Planet } from '../models/planet.model';
 import { IPlanetsService } from './iplanets.service';
+import { PlanetsRepository } from '../repository/planets.repo';
+import { PlanetDTO } from '../models/dtos/planet.dto';
 @Injectable()
 export class PlanetsService implements IPlanetsService {
   /**
@@ -11,16 +13,13 @@ export class PlanetsService implements IPlanetsService {
   /**
    *
    */
-  constructor() {
-  }
+  constructor(private planetsRepository: PlanetsRepository) {}
 
   async findAll(): Promise<Planet[]> {
-    const p1 = new Planet();
-    p1.name = "Earth"
-    const p2 = new Planet();
-    p1.name = "mercury"
+    return this.planetsRepository.findAll();
+  }
 
-    var mockList: Planet[] = [p1, p2]
-    return mockList;
+  async insert(newPlanet: PlanetDTO): Promise<Planet> {
+    return this.planetsRepository.insert(newPlanet);
   }
 }
