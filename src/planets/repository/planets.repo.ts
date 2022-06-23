@@ -10,7 +10,6 @@ import { PlanetDTO } from '../models/dtos/planet.dto';
 export class PlanetsRepository implements IPlanetsRepository {
 
     constructor(@InjectModel(Planet.name) private planetDBModel: Model<PlanetDocument>) {}
-
     
     async findAll(): Promise<PlanetModel[]> {
         const planets = await this.planetDBModel.find({}).exec();
@@ -21,6 +20,16 @@ export class PlanetsRepository implements IPlanetsRepository {
             return plt;
         });
         return planetsDTO;
+    }
+
+    async findByName(name: string): Promise<PlanetModel> {
+        const foundPlanet = await this.planetDBModel.findOne({name});
+        if(!foundPlanet) return;
+
+        const planetDTO = new PlanetModel();
+        planetDTO.id = foundPlanet.id;
+        planetDTO.name = foundPlanet.name;
+        return planetDTO;
     }
 
     async insert(newPlanet: PlanetDTO): Promise<PlanetModel> {
