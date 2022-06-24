@@ -25,7 +25,7 @@ describe('PlanetsService', () => {
             new: jest.fn().mockResolvedValue(mockPlanet),
             constructor: jest.fn().mockResolvedValue(mockPlanet),
             find: jest.fn().mockResolvedValue([mockPlanet]),
-            findOne: jest.fn().mockResolvedValue(mockPlanet),
+            findOne: jest.fn(),
             create: jest.fn(),
             exec: jest.fn()
           }
@@ -71,9 +71,10 @@ describe('PlanetsService', () => {
   it('should throw exception when trying to create an existing planet', async () => {
 
     const existingPlanet = { name: "Earth" };
-
-    expect(await service.insert(existingPlanet))
-      .toThrow(ExistingPlanetException);
+    jest.spyOn(model, 'findOne').mockResolvedValue(mockPlanet);
+    const func = () => service.insert(existingPlanet)
+    await expect(func())
+    .rejects
+    .toThrow(ExistingPlanetException);
   });
-
 });

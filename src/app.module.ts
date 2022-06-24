@@ -1,15 +1,14 @@
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { ApolloDriver, ApolloDriverConfig,  } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DirectiveLocation, GraphQLDirective } from 'graphql';
+import { DirectiveLocation, GraphQLDirective, GraphQLError, GraphQLFormattedError} from 'graphql';
 import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
 import { PlanetsModule } from './planets/planets.module';
 import { GalaxiesModule } from "./galaxies/galaxies.module" 
 import { MainController } from "./main.controller"
 import 'dotenv/config'
 
-console.dir(process.env)
 @Module({
   controllers: [MainController],
   imports: [
@@ -31,6 +30,12 @@ console.dir(process.env)
           }),
         ],
       },
+      formatError: (error: GraphQLError) => {
+        const graphQLFormattedError: GraphQLFormattedError = {
+          message: error.message,
+        };
+        return graphQLFormattedError;
+      }
     }),
   ],
 })

@@ -23,7 +23,7 @@ export class PlanetsRepository implements IPlanetsRepository {
     }
 
     async findByName(name: string): Promise<PlanetModel> {
-        const foundPlanet = await this.planetDBModel.findOne({name});
+        const foundPlanet = await this.planetDBModel.findOne({ "name" : { $regex : new RegExp(name, "i") } } );
         if(!foundPlanet) return;
 
         const planetDTO = new PlanetModel();

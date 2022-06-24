@@ -6,7 +6,7 @@ import { PlanetDTO } from '../models/dtos/planet.dto';
 import { ExistingPlanetException } from './exceptions/ExistingPlanetException';
 @Injectable()
 export class PlanetsService implements IPlanetsService {
-  
+
   constructor(private planetsRepository: PlanetsRepository) {}
 
   async findAll(): Promise<Planet[]> {
@@ -18,7 +18,6 @@ export class PlanetsService implements IPlanetsService {
     //business logic
     const foundExistingPlanet = await this.planetsRepository.findByName(newPlanet.name);
     if(foundExistingPlanet) throw new ExistingPlanetException();
-
     return this.planetsRepository.insert(newPlanet);
   }
 }

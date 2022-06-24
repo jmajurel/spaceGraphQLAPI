@@ -1,5 +1,6 @@
-export class BaseException {
+export class BaseException extends Error {
     constructor(msg?: string) {
-        throw !!msg ? msg : "An exception occured";
+        super(!!msg ? msg : "An exception occured");
+        Object.setPrototypeOf(this, BaseException.prototype);
     }
 }
